@@ -12,11 +12,13 @@ data = pd.read_csv('netflixData.csv')
 data = data.dropna(subset = ['Cast', 'Production Country','Rating'])
 
 movies = data[data['Content Type'] == 'Moive'].reset_index()
-movies = movies.drop(['index', 'Show Id', 'Content Type', 'Date Added', 'Release Date', 'Duration', 'Description'], axix = 1)
+movies = movies.drop(['index', 'Show Id', 'Content Type', 'Date Added',
+                    'Release Date', 'Duration', 'Description'], axis=1)
 movies.head()
 
 tv = data[data['Content Type'] == 'TV Show'].reset_index()
-tv = tv.drop(['index', 'Show Id', 'Content Type', 'Date Added', 'Release Date', 'Duration', 'Description'], axix = 1)
+tv = tv.drop(['index', 'Show Id', 'Content Type', 'Date Added',
+               'Release Date', 'Duration', 'Description'], axis = 1)
 tv.head()
 
 actors = []
@@ -168,7 +170,7 @@ countries_list_2 = sorted(set(flat_list_6))
 binary_countries_2 = [[0] * 0 for i in range(len(set(flat_list_6)))]
 for i in tv['Production Country']:
     k = 0
-    for j in countries_list-2:
+    for j in countries_list_2:
         if j in i:
             binary_countries_2[k].append(1.0)
         else:
@@ -286,7 +288,18 @@ def netflix_recommender(search):
     else:
         return ('Title not in dataset. Please check spelling.')
     
+def call_recommender():
+    subject = text.get()
+    recommendation = netflix_recommender(subject)
+    txt = ''
+    for i in recommendation.iterrows():
+        txt += 'Title: ' +str(i[1][0]) + '\n'
+    tk.Label(window, text = txt, font = ('Calibri 15')).place(x = 195, y = 150)
 
+text = tk.StringVar()
+tk.Entry(window, textvariable = text).place(x = 200, y = 80, height = 30, width = 280)
+tk.Button(window, text = 'Find Recommendations', command = call_recommender).place(x = 285, y = 150)
+window.mainloop()
 
 
 
