@@ -40,4 +40,31 @@ for i in movies['Cast']:
             binary_actors[k].append(0.0)
         k += 1
 
+binary_actors = pd.DataFrame(binary_actors).transpose()
+directors = []
+for i in movies['Director']:
+    if pd.notna(i):
+        director = re.split(r', \s*', i)
+        directors.append(director)
+
+flat_list_2 = []
+for sublist in directors:
+    for item in sublist:
+        flat_list_2.append(item)
+
+directors_list = sorted(set(flat_list_2))
+binary_directors = [[0] * 0 for i in range(len(set(flat_list_2)))]
+for i in movies['Director']:
+    k = 0
+    for j in directors_list:
+        if pd.isna(i):
+            binary_directors[k].append(0.0)
+        elif j in i:
+            binary_directors[k].append(1.0)
+        else:
+            binary_directors[k].append(0.0)
+        k += 1
+
+binary_directors = pd.DataFrame(binary_directors).transpose()
  
+
