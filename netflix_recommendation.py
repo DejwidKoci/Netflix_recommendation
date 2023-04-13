@@ -219,6 +219,73 @@ for i in tv['Rating']:
 binary_ratings_2 = pd.DataFrame(binary_ratings_2).transpose()
 binary_2 = pd.concat([binary_actors_2, binary_countries_2, binary_genres_2], axis = 1, ignore_index = True)
 
+window = tk.Tk()
+window.geometry('600x600')
+head = tk.Label(window, text = 'Enter movie / TV Show on Netflix For Recommendations', font = ('Calibri 15'))
+head.pack(pady = 20)
+
+def netflix_recommender(search):
+    cs_list = []
+    binary_list = []
+
+    if search in movies['Title'].values:
+        idx = movies[movies['Title'] == search].index.item()
+        for i in binary.iloc[idx]:
+            binary_list.append(i)
+
+        point_1 = np.array(binary_list).reshape(1, -1)
+        point_1 = [val for sublist in point_1 for val in sublist]
+        for j in range(len(movies)):
+            binary_list_2 = []
+            for k in binary.iloc[j]:
+                binary_list_2.append(k)
+            point_2 = np.array(binary_list_2).reshape(1, -1)
+            point_2 = [val for sublist in point_2 for val in sublist]
+            dot_product = np.dot(point_1, point_2)
+            norm_1 = np.linalg.norm(point_1)
+            norm_2 = np.linalg.norm(point_2)
+            cos_sim = dot_product / (norm_1 * norm_2)
+            cs_list.append(cos_sim)
+
+        movies_copy = movies.copy() 
+        movies_copy['cos_sim'] = cs_list
+        results = movies_copy.sort_values('cos_sim', ascending = False )
+        results = results[results['title'] != search]
+        top_results = results.head(5)
+        
+        return (top_results)
+    
+    elif search in tv['Title'].values:
+        idx = tv[tv['Title'] == search].index.item()
+        for i in binary_2.iloc[idx]:
+            binary_list.append(i)
+
+        point_1 = np.array(binary_list).reshape(1, -1)
+        point_1 = [val for sublist in point_1 for val in sublist]
+        for j in range(len(tv)):
+            binary_list_2 = []
+            for k in binary_2.iloc[j]:
+                binary_list_2.append(k)
+
+            point_2 = np.array(binary_list_2).reshape(1,-1)
+            point_2 = [val for sublist in point_2 for val in sublist]
+            dot_product = np.dot(point_1, point_2)
+            norm_1 = np.linalg.norm(point_1)
+            norm_2 = np.linalg.norm(point_2)
+            cos_sim = dot_product / (norm_1 * norm_2)
+            cs_list.append(cos_sim)
+
+        tv_copy = tv.copy()
+        tv_copy['cos_sim'] = cs_list
+        results = tv_copy.sort_values('cos_sim', ascending = False)
+        results = results[results['Title'] != search]
+        top_results = results.head(5)
+
+        return (top_results)
+    
+    else:
+        return ('Title not in dataset. Please check spelling.')
+    
 
 
 
