@@ -154,7 +154,28 @@ for i in tv['Cast']:
 
 binary_actors_2 = pd.DataFrame(binary_actors_2).transpose()
 
+countries_2 = []
+for i in tv['Production Country']:
+    country2 = re.split(r', \s*', i)
+    countries_2.append(country2)
 
+flat_list_6 = []
+for sublist in countries_2:
+    for item in sublist:
+        flat_list_6.append(item)
+
+countries_list_2 = sorted(set(flat_list_6))
+binary_countries_2 = [[0] * 0 for i in range(len(set(flat_list_6)))]
+for i in tv['Production Country']:
+    k = 0
+    for j in countries_list-2:
+        if j in i:
+            binary_countries_2[k].append(1.0)
+        else:
+            binary_countries_2[k].append(0.0)
+        k += 1
+    
+binary_countries_2 = pd.DataFrame(binary_countries_2).transpose()
 
 
 
