@@ -66,5 +66,28 @@ for i in movies['Director']:
         k += 1
 
 binary_directors = pd.DataFrame(binary_directors).transpose()
- 
+
+countries = []
+for i in movies['Production Country']:
+    country = re.split(r', \s*', i)
+    countries.append(country)
+
+flat_list_3 = []
+for sublist in countries:
+    for item in sublist:
+        flat_list_3.append(item)
+
+countries_list = sorted(set(flat_list_3))
+binary_countries = [[0] * 0 for i in range(len(set(flat_list_3)))]
+for i in movies['Production Country']:
+    k = 0
+    for j in countries_list:
+        if j in i:
+            binary_countries[k].append(1.0)
+        else:
+            binary_countries[k].append(0.0)
+        k += 1
+
+binary_countries = pd.DataFrame(binary_countries).transpose()
+
 
