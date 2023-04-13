@@ -200,6 +200,24 @@ for i in tv['Genres']:
 
 binary_genres_2 = pd.DataFrame(binary_genres_2).transpose()
 
+ratings_2 = []
+for i in tv['Rating']:
+    ratings_2.append(i)
+
+ratings_list_2 = sorted(set(ratings_2))
+binary_ratings_2 = [[0] * 0 for i in range(len(set(ratings_list_2)))]
+for i in tv['Rating']:
+    k = 0
+    for j in ratings_list_2:
+        if j in i:
+            binary_ratings_2[k].append(1.0)
+        else:
+            binary_ratings_2[k].append(0.0)
+        
+        k += 1
+
+binary_ratings_2 = pd.DataFrame(binary_ratings_2).transpose()
+binary_2 = pd.concat([binary_actors_2, binary_countries_2, binary_genres_2], axis = 1, ignore_index = True)
 
 
 
