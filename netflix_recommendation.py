@@ -177,6 +177,32 @@ for i in tv['Production Country']:
     
 binary_countries_2 = pd.DataFrame(binary_countries_2).transpose()
 
+genres_2 = []
+for i in tv['Genres']:
+    genre2 = re.split(r', \s*', i)
+    genres_2.append(genre2)
+
+flat_list_7 = []
+for sublist in genres_2:
+    for item in sublist:
+        flat_list_7.append(item)
+
+genres_list_2 = sorted(set(flat_list_7))
+binary_genres_2 = [[0] * 0 for i in range(len(set(flat_list_7)))]
+for i in tv['Genres']:
+    k = 0
+    for j in genres_list_2:
+        if j in i:
+            binary_genres_2[k].append(1.0)
+        else:
+            binary_genres_2[k].append(0.0)
+        k += 1
+
+binary_genres_2 = pd.DataFrame(binary_genres_2).transpose()
+
+
+
+
 
 
 
