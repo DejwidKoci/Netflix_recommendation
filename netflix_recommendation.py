@@ -90,4 +90,31 @@ for i in movies['Production Country']:
 
 binary_countries = pd.DataFrame(binary_countries).transpose()
 
+genres = []
+for i in movies['Genres']:
+    genre = re.split(r', \s*', i)
+    genres.append(genre)
+
+flat_list_4 = []
+for sublist in genres:
+    for item in sublist:
+        flat_list_4.append(item)
+
+genres_list = sorted(set(flat_list_4))
+binary_genres = [[0] * 0 for i in range(len(set(flat_list_4)))]
+for i in movies['Genres']:
+    k = 0
+    for j in genres_list:
+        if j in i:
+            binary_genres[k].append(1.0)
+        else:
+            binary_genres[k].append(0.0)
+        k += 1
+
+binary_genres = pd.DataFrame(binary_genres).transpose()
+
+
+
+
+
 
