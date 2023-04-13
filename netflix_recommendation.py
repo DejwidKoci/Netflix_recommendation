@@ -113,6 +113,24 @@ for i in movies['Genres']:
 
 binary_genres = pd.DataFrame(binary_genres).transpose()
 
+ratings = []
+for i in movies['Rating']:
+    ratings.append(i)
+
+ratings_list = sorted(set(ratings))
+binary_ratings = [[0] * 0 for i in range(len(set(ratings)))]
+for i in movies['Rating']:
+    k =0
+    for j in ratings_list:
+        if j in i:
+            binary_ratings[k].append(1.0)
+        else:
+            binary_ratings[k].append(0.0)
+        k += 1
+
+binary_ratings = pd.DataFrame(binary_ratings).transpose()
+binary = pd.concat([binary_actors, binary_directors, binary_countries, binary_genres], ignore_index = True)
+
 
 
 
