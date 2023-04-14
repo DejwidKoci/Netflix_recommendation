@@ -8,7 +8,6 @@ from nltk.corpus import stopwords
 import streamlit as st
 import sys
 
-# Attention: The Netflix Movies and TV Shows are from 2021!
 
 class Recommendation:
     def __init__(self):
